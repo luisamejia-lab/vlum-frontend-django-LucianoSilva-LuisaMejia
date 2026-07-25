@@ -5,10 +5,12 @@
 ---
 
 ## Integrantes :
-  - Luciano Silva
+
+- Luciano Silva
   -Luisa Mejia
 
 ### Requisitos previos
+
 - Node.js y npm instalados
 - Editor de código (recomendado: VS Code)
 - Navegador actualizado (recomendado: Chrome)
@@ -17,9 +19,11 @@
 ---
 
 ### Variables de entorno (.env)
+
 ```
-VITE_API_BASE_URL=http://localhost:8000
-VITE_API_MEDIA_URL=${VITE_API_BASE_URL}/media/
+VITE_API_BASE_URL=http://localhost:8000/api
+VITE_AUTH_BASE_URL=http://localhost:8000/o
+VITE_MEDIA_URL=http://localhost:8000/media
 VITE_API_CLIENT_ID=tu_client_id
 VITE_API_CLIENT_SECRET=tu_client_secret
 ```
@@ -36,7 +40,7 @@ VITE_API_CLIENT_SECRET=tu_client_secret
    ```
 4. Instalar Material UI y sus dependencias:
    ```bash
-   npm install @mui/material @emotion/react @emotion/styled
+   npm install @mui/material @mui/icons-material @emotion/react @emotion/styled
    ```
 5. Instalar Axios:
    ```bash
@@ -48,34 +52,36 @@ VITE_API_CLIENT_SECRET=tu_client_secret
    ```
 
 ### Comandos útiles
+
 - Ejecutar el servidor de desarrollo
-    ```bash
-    npm run dev
-    ```
+  ```bash
+  npm run dev
+  ```
 - Comprobar versión de dependencias
-    ```bash
-    npm list
-    ```
+  ```bash
+  npm list
+  ```
 - Limpiar dependencias
-    ```bash
-    rm -rf node_modules
-    npm install
-    ```
+  ```bash
+  rm -rf node_modules
+  npm install
+  ```
 
 ### Comandos git
+
 - Verificar los archivos modificados
-    ```bash
-    git status
-    ```
+  ```bash
+  git status
+  ```
 - Agregar archivos al área de preparación
-    ```bash
-    git add .
-    ```
+  ```bash
+  git add .
+  ```
 - Realizar un commit
-    ```bash
-    git commit -m "descripción de cambios"
-    ```
+  ```bash
+  git commit -m "descripción de cambios"
+  ```
 - Enviar los cambios a github
-    ```bash
-    git push origin main
-    ```
+  ```bash
+  git push origin main
+  ```
