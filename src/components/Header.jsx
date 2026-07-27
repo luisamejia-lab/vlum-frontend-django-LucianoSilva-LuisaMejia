@@ -2,15 +2,19 @@ import { Container, AppBar, Toolbar, Box, Button } from "@mui/material";
 import vlumLogo from "../assets/logo.png";
 import { isLoggedIn, logout } from "../services/authService";
 import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useSnackbar } from "./SnackbarContext";
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { showSnackbar } = useSnackbar();
 
   const handleLogout = async () => {
     await logout();
-    alert("Sesión cerrada correctamente");
-    window.location.href = "/";
+    showSnackbar("Sesión cerrada correctamente", "info");
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 800);
   }
 
   return (
@@ -24,10 +28,34 @@ export default function Header() {
       }}
     >
       <Container>
-        <Toolbar disableGutters sx={{ flexWrap: 'wrap', py: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-            <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-              <img src={vlumLogo} alt="Vlum Logo" height={45} style={{ filter: 'drop-shadow(0 0 5px #7E30E1)' }} />
+        <Toolbar
+        disableGutters
+        sx={{ flexWrap: 'wrap', py: 1 }}
+        >
+
+          <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexGrow: 1
+            }}
+          >
+
+            <Link
+            to="/"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              textDecoration: 'none'
+              }}
+            >
+              <img
+              src={vlumLogo}
+              alt="Vlum Logo"
+              height={45}
+              style={{ filter: 'drop-shadow(0 0 5px #7E30E1)' }}
+              />
+
               <Box
                 component="span"
                 sx={{
@@ -42,18 +70,61 @@ export default function Header() {
               </Box>
             </Link>
           </Box>
-          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: { xs: 2, sm: 0 } }}>
-            <Button color="inherit" component={Link} to="/" sx={{ '&:hover': { color: '#FFAB91' } }}>Inicio</Button>
-            <Button color="inherit" component={Link} to="/directors" sx={{ '&:hover': { color: '#FFAB91' } }}>Directores</Button>
+
+          <Box sx={{
+            display: 'flex',
+            gap: 1,
+            flexWrap: 'wrap',
+            mt: { xs: 2, sm: 0 }
+          }}>
+            <Button
+            color="inherit"
+            component={Link}
+            to="/"
+            sx={{ '&:hover': { color: '#FFAB91' } }}>
+              Inicio
+            </Button>
+
+            <Button
+            color="inherit"
+            component={Link}
+            to="/directors"
+            sx={{ '&:hover': { color: '#FFAB91' } }}>
+              Directores
+            </Button>
 
             {isLoggedIn() ? (
               <>
-                <Button color="inherit" component={Link} to="/add-movie" sx={{ '&:hover': { color: '#FFAB91' } }}>Agregar Película</Button>
-                <Button color="inherit" component={Link} to="/add-director" sx={{ '&:hover': { color: '#FFAB91' } }}>Agregar Director</Button>
-                <Button color="error" variant="outlined" onClick={handleLogout} sx={{ borderRadius: 4, ml: 1 }}>Cerrar Sesión</Button>
+                <Button
+                color="inherit"
+                component={Link}
+                to="/add-movie"
+                sx={{ '&:hover': { color: '#FFAB91' } }}>
+                  Agregar Película
+                </Button>
+
+                <Button
+                color="inherit"
+                component={Link}
+                to="/add-director"
+                sx={{ '&:hover': { color: '#FFAB91' } }}>
+                  Agregar Director
+                </Button>
+
+                <Button
+                color="error"
+                variant="outlined"
+                onClick={handleLogout}
+                sx={{ borderRadius: 4, ml: 1 }}>
+                  Cerrar Sesión
+                </Button>
               </>
             ) : (
-              <Button variant="contained" component={Link} to="/login" sx={{ borderRadius: 4, background: 'linear-gradient(95deg, #C2185B, #7E30E1)' }}>
+              <Button
+              variant="contained"
+              component={Link}
+              to="/login"
+              sx={{ borderRadius: 4, background: 'linear-gradient(95deg, #C2185B, #7E30E1)' }}>
                 Iniciar Sesión
               </Button>
             )}

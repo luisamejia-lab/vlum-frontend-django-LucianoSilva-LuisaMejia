@@ -1,4 +1,4 @@
-import { Box, Typography, TextField, Button, Paper } from '@mui/material';
+import { Box, Typography, TextField, Button, Paper, CircularProgress } from '@mui/material';
 import { login } from '../services/authService';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -8,9 +8,11 @@ export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // <-- Encender
     try {
       const response = await login(username, password);
       localStorage.setItem('token', response.access_token);
@@ -18,6 +20,8 @@ export default function LoginPage() {
     } catch (error) {
       console.log('Error en login:', error);
       setError('Credenciales incorrectas o error de conexión.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,13 +73,16 @@ export default function LoginPage() {
           variant="contained"
           type="submit"
           size="large"
+          disabled={loading}
           sx={{
             mt: 2,
             borderRadius: 8,
-            background: 'linear-gradient(95deg, #C2185B, #7E30E1)'
+            background: loading ? 'rgba(255,255,255,0.1)' : 'linear-gradient(95deg, #C2185B, #7E30E1)',
+            color: loading ? 'rgba(255,255,255,0.5)' : '#fff'
           }}
         >
-          Ingresar
+          {loading && <CircularProgress size={20} color="inherit" sx={{ mr: 1.5 }} />}
+          {loading ? "Ingresando..." : "Ingresar"}
         </Button>
       </Box>
     </Paper>

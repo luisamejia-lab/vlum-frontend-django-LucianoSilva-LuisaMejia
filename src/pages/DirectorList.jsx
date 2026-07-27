@@ -1,10 +1,12 @@
 import { Grid, Typography, Box } from "@mui/material";
 import DirectorCard from "../components/DirectorCard";
+import CardSkeleton from "../components/CardSkeleton";
 import { useState, useEffect } from "react";
 import { getDirectorList } from "../services/DirectorService";
 
 export default function DirectorList() {
     const [directors, setDirectors] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getDirectorList()
@@ -13,6 +15,9 @@ export default function DirectorList() {
             })
             .catch((error) => {
                 console.error("Error obteniendo lista de directores:", error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     }, []);
 
@@ -36,11 +41,18 @@ export default function DirectorList() {
             </Typography>
 
             <Grid container spacing={3}>
-                {directors.map((director) => (
-                    <Grid item key={director.id} xs={12} sm={6} md={4} lg={3}>
-                        <DirectorCard director={director} />
-                    </Grid>
-                ))}
+                {loading
+                    ? Array.from(new Array(8)).map((_, index) => (
+                        <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+                            <CardSkeleton />
+                        </Grid>
+                    ))
+                    : directors.map((director) => (
+                        <Grid item key={director.id} xs={12} sm={6} md={4} lg={3}>
+                            <DirectorCard director={director} />
+                        </Grid>
+                    ))
+                }
             </Grid>
         </Box>
     );

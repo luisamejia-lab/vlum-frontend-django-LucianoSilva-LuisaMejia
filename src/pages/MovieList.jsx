@@ -1,10 +1,12 @@
 import { Grid, Typography, Box } from "@mui/material";
 import MovieCard from "../components/MovieCard";
+import CardSkeleton from "../components/CardSkeleton";
 import { useState, useEffect } from "react";
 import { getMovieList } from "../services/MovieService";
 
 export default function MovieList() {
     const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getMovieList()
@@ -13,6 +15,9 @@ export default function MovieList() {
             })
             .catch((error) => {
                 console.error("Error obteniendo lista de peliculas:", error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     }, []);
 
@@ -36,11 +41,18 @@ export default function MovieList() {
             </Typography>
 
             <Grid container spacing={3}>
-                {movies.map((movie) => (
-                    <Grid item key={movie.id} xs={12} sm={6} md={4} lg={3}>
-                        <MovieCard movie={movie} />
-                    </Grid>
-                ))}
+                {loading
+                    ? Array.from(new Array(8)).map((_, index) => (
+                        <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+                            <CardSkeleton />
+                        </Grid>
+                    ))
+                    : movies.map((movie) => (
+                        <Grid item key={movie.id} xs={12} sm={6} md={4} lg={3}>
+                            <MovieCard movie={movie} />
+                        </Grid>
+                    ))
+                }
             </Grid>
         </Box>
     );
